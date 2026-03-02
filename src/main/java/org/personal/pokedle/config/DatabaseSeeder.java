@@ -16,21 +16,24 @@ public class DatabaseSeeder {
     @Bean
     CommandLineRunner initDatabase(PokeApiClient client, PokemonRepository repository) {
         return args -> {
-            if (repository.count() == 0) {
-                System.out.println("Starting Mega-Seeder... this may take a minute.");
+            System.out.println("Checking Pokedex status in MySQL...");
 
-                // 1. Get the list of all IDs/Names
-                List<Map<String, String>> allPokemon = client.fetchAllPokemonMetadata();
+            // 1. Get the list of all Names/URLs
+            List<Map<String, String>> allPokemon = client.fetchAllPokemonMetadata();
+            int newEntries = 0;
 
-                for (Map<String, String> baseData : allPokemon) {
-                    try {
-                        String[] urlParts = baseData.get("url").split("/");
-                        Long id = Long.parseLong(urlParts[urlParts.length - 1]);
+            for (Map<String, String> baseData : allPokemon) {
+                try {
+                    String[] urlParts = baseData.get("url").split("/");
+                    Long id = Long.parseLong(urlParts[urlParts.length - 1]);
 
-                        // Skip forms/mega-evolutions beyond the national dex count if desired
-                        if (id > 1025) break;
+                    // Stop at the end of the National Dex (Gen 9)
+                    if (id > 151) break;
 
-                        // 2. Fetch Detailed Data
+                    // RESUMPTION LOGIC: Only fetch if we don't have this ID yet
+                    if (!repository.existsById(id)) {
+
+                        // 2. Fetch Detailed Data (Requires 2 API calls per Pokemon)
                         Map<String, Object> details = client.fetchPokemonDetails(id);
                         Map<String, Object> species = client.fetchSpeciesDetails(id);
 
@@ -55,13 +58,25 @@ public class DatabaseSeeder {
                                 .build();
 
                         repository.save(p);
-                        if (id % 50 == 0) System.out.println("Cached " + id + " Pokémon...");
+                        newEntries++;
 
-                    } catch (Exception e) {
-                        System.err.println("Error skipping Pokémon: " + baseData.get("name"));
+                        // RATE LIMITING: Pause for 100ms to avoid 'Connection Reset'
+                        Thread.sleep(300);
+
+                        if (id % 10 == 0) {
+                            System.out.println("Caught and saved: " + p.getName() + " (ID: " + id + ")");
+                        }
                     }
+
+                } catch (Exception e) {
+                    System.err.println("Error processing " + baseData.get("name") + ": " + e.getMessage());
                 }
-                System.out.println("Database Seeding Complete!");
+            }
+
+            if (newEntries > 0) {
+                System.out.println("Database Seeding Complete! Added " + newEntries + " new Pokémon.");
+            } else {
+                System.out.println("Pokedex is already up to date.");
             }
         };
     }
