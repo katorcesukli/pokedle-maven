@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/resources/index.html" }
+    { "source": "/", "destination": "/pokedle_frontend/public/index.html" }
   ]
 }
