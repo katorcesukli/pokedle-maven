@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/", "destination": "/pokedle_frontend/dist" }
-  ]
-}
