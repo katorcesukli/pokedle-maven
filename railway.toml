@@ -1,0 +1,5 @@
+[build]
+builder = "none"
+
+[deploy]
+startCommand = "java -jar deploy/pokedle-0.0.1-SNAPSHOT.jar"
