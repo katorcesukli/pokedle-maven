@@ -28,7 +28,7 @@ public class DatabaseSeeder {
                     Long id = Long.parseLong(urlParts[urlParts.length - 1]);
 
                     //Count for natdex number RIGHT HERE BRO
-                    if (id > 151) break;
+                    if (id > 649) break;
 
                     //only fetch if we don't have this ID yet
                     if (!repository.existsById(id)) {
