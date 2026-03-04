@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const API_BASE = "http://192.168.11.34:8080/api/v1/game";
+//const API_BASE = "http://"my pc's ip":8080/api/v1/game";
+const API_BASE = "https://pokedle-maven-production.up.railway.app/api/v1/game";
 
 function App() {
   const [hint, setHint] = useState('');
