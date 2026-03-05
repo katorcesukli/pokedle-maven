@@ -1,16 +1,18 @@
 /* global styles for the app */
 :root {
-  --background-image: url('');
+  --background-image: url('https://wallpapercave.com/wp/wp2609540.png');
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Arial Rounded MT Bold", "Trebuchet MS", Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f7f7f7;
-  background-image: url('https://wallpapercave.com/wp/wp2609540.png');
+  background-color: #f7f7f7; 
+  background-image: var(--background-image);
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #root {
@@ -44,6 +46,7 @@ button {
   border: 1px solid #ccc;
   margin: 10px 0;
   padding: 10px;
+  overflow: hidden;
 }
 
 .guess-result h3 {
@@ -59,4 +62,6 @@ button {
   max-width: 100%;
   height: auto;
   display: block;
+  margin-top: 10px; 
+  border-radius: 4px; 
 }
