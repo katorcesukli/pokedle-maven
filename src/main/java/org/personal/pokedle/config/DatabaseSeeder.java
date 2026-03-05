@@ -52,8 +52,8 @@ public class DatabaseSeeder {
                                 .habitat(species.get("habitat") != null ?
                                         (String) ((Map<String, Object>) species.get("habitat")).get("name") : "unknown")
                                 .generation((String) ((Map<String, Object>) species.get("generation")).get("name"))
-                                .weight(((Number) details.get("weight")).doubleValue() / 10.0) // hg to kg
-                                .height(((Number) details.get("height")).doubleValue() / 10.0) // dm to m
+                                .weight(((Number) details.get("weight")).doubleValue() / 10.0) //to kg
+                                .height(((Number) details.get("height")).doubleValue() / 10.0) //to m
                                 .stage(species.get("evolves_from_species") == null ? "Basic" : "Evolved")
                                 .build();
 

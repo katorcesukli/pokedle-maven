@@ -76,7 +76,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2>}
+            {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2> && <img src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${result.id}.png`}/>}
           </div>
         ))}
       </div>
