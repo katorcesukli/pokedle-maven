@@ -7,5 +7,6 @@ public record GuessResult(
         String guess,
         List<LetterStatus> fingerPrint, // e.g., [CORRECT, ABSENT, PRESENT...]
         List<GuessFeedback> attributeHints,
-        boolean isWinner
+        boolean isWinner,
+        Long natId
 ) {}

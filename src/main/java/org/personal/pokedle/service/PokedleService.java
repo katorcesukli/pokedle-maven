@@ -35,7 +35,8 @@ public class PokedleService {
         attributeHints.add(compareNumbers("Height", guess.getHeight(), target.getHeight()));
         attributeHints.add(compareStrings("Color", guess.getColor(), target.getColor()));
 
-        return new GuessResult(guess.getName(), nameHints, attributeHints, isWinner);
+        Long natId = guess.getId();
+        return new GuessResult(guess.getName(), nameHints, attributeHints, isWinner, natId);
     }
 
     private List<LetterStatus> calculateLetterHints(String guess, String target) {
