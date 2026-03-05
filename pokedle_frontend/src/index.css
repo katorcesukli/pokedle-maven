@@ -1,9 +1,16 @@
 /* global styles for the app */
+:root {
+  --background-image: url('');
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: #f7f7f7;
+  background-image: url('https://wallpapercave.com/wp/wp2609540.png');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 #root {
@@ -46,4 +53,10 @@ button {
 .guess-result h2 {
   color: green;
   margin-top: 10px;
+}
+
+.guess-result img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
