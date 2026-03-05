@@ -21,7 +21,7 @@ public class PokeApiClient {
 
     public List<Map<String, String>> fetchAllPokemonMetadata() {
         return webClient.get()
-                .uri("pokemon?limit=151")
+                .uri("pokemon?limit=649")
                 .retrieve()
                 .bodyToMono(Map.class)
                 .map(response -> (List<Map<String, String>>) response.get("results"))

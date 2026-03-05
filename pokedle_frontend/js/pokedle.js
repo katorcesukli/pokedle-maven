@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8080/api/v1/game";
+const API_BASE = "http://https://kind-achievement-production.up.railway.app/api/v1/game/api/v1/game";
 
 // 1. On Load: Get Hint
 window.onload = async () => {
