@@ -9,6 +9,8 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let abortController = new AbortController();
+
     const fetchSuggestions = async () => {
       if (!value || value.trim().length === 0) {
         setSuggestions([]);
@@ -18,9 +20,10 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
 
       setIsLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/search?query=${encodeURIComponent(value)}`, {
+        const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(value)}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
+          signal: abortController.signal,
         });
 
         if (response.ok) {
@@ -32,6 +35,10 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
           setSuggestions([]);
         }
       } catch (err) {
+        if (err.name === 'AbortError') {
+          // request cancelled
+          return;
+        }
         console.error('Search failed:', err);
         setSuggestions([]);
       } finally {
@@ -40,7 +47,10 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
     };
 
     const debounceTimer = setTimeout(fetchSuggestions, 300);
-    return () => clearTimeout(debounceTimer);
+    return () => {
+      clearTimeout(debounceTimer);
+      abortController.abort();
+    };
   }, [value]);
 
   const handleSelectSuggestion = (suggestion) => {
