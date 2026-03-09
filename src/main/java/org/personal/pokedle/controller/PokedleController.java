@@ -8,6 +8,7 @@ import org.personal.pokedle.service.PokedleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,5 +51,15 @@ public class PokedleController {
                     return ResponseEntity.ok(result);
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<String>> searchPokemon(@RequestParam String q) {
+        if (q == null || q.isBlank()) {
+            return ResponseEntity.ok(List.of());
+        }
+
+        List<String> results = pokedleService.searchPokemon(q);
+        return ResponseEntity.ok(results);
     }
 }

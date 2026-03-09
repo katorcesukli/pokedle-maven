@@ -42,20 +42,48 @@ button {
   cursor: pointer;
 }
 
+h3 {
+  text-align: center;
+}
+
 .guess-result {
-  border: 1px solid #ccc;
-  margin: 10px 0;
-  padding: 10px;
+  border: 2px solid #dadce0;
+  margin: 15px 0;
+  padding: 15px;
   overflow: hidden;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.guess-result:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
 }
 
 .guess-result h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #1a1a1a;
 }
 
 .guess-result h2 {
-  color: green;
-  margin-top: 10px;
+  color: #6aaa64;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.guess-result ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.guess-result li {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #565758;
 }
 
 .guess-result img {

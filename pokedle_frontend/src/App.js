@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import LetterGrid from './components/LetterGrid';
+import SearchBar from './components/SearchBar';
 
 //const API_BASE = "http://"my pc's ip":8080/api/v1/game";
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
@@ -39,6 +41,8 @@ function App() {
       }
 
       const result = await response.json();
+      console.log('Full API Response:', result);
+      console.log('isWinner:', result.isWinner);
       setResults(prev => [result, ...prev]);
       setGuessInput('');
     } catch (err) {
@@ -49,24 +53,26 @@ function App() {
   return (
     <div className="app-container">
       <h1>Pokedle</h1>
+        <h3>
+    GREEN - Correct Letter and Placement<br></br>
+    YELLOW - Correct Letter but wrong Placement<br></br>
+    RED - Letter not in name<br></br>
+    GREY - Letter has exceeded name count<br></br>
+        </h3>
       <p id="hint-text">{hint || 'Loading hint...'}</p>
 
-      <form onSubmit={submitGuess}>
-        <input
-          id="pokemon-input"
-          type="text"
-          value={guessInput}
-          onChange={(e) => setGuessInput(e.target.value)}
-          placeholder="Enter Pokémon name"
-        />
-        <button type="submit">Guess</button>
-      </form>
+      <SearchBar
+        value={guessInput}
+        onChange={(e) => setGuessInput(e.target.value)}
+        onSubmit={submitGuess}
+        onSelectSuggestion={(name) => setGuessInput(name)}
+      />
 
       <div id="results-container">
         {results.map((result, index) => (
           <div key={index} className="guess-result">
             <h3>Guess: {result.guess}</h3>
-            <p>Letters: {result.fingerPrint.join(' | ')}</p>
+            <LetterGrid letters={result.guess.split('')} statuses={result.fingerPrint} />
             <ul>
               {result.attributeHints.map((attr, idx) => (
                 <li key={idx}>

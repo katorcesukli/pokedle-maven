@@ -20,4 +20,6 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
     @Query("SELECT p.id FROM Pokemon p ORDER BY p.id ASC")
     List<Long> findAllIds();
+
+    List<Pokemon> findTop10ByNameStartingWithIgnoreCase(String name);
 }

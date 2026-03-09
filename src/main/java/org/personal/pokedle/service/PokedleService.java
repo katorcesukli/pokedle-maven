@@ -109,4 +109,12 @@ public class PokedleService {
         return pokemonRepository.findById(targetId)
                 .orElseThrow(() -> new RuntimeException("Pokemon not found with ID: " + targetId));
     }
+
+    public List<String> searchPokemon(String query) {
+        return pokemonRepository
+                .findTop10ByNameStartingWithIgnoreCase(query)
+                .stream()
+                .map(Pokemon::getName)
+                .toList();
+    }
 }
