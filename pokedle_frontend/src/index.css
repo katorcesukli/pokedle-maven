@@ -1,6 +1,6 @@
 /* global styles for the app */
 :root {
-  --background-image: url('https://wallpapercave.com/wp/wp2609540.png');
+  --background-image: url('https://images5.alphacoders.com/127/thumb-1920-1278272.jpg');
 }
 
 body {
@@ -13,6 +13,12 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
 }
 
 #root {
