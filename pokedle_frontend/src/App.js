@@ -5,6 +5,19 @@ import SearchBar from './components/SearchBar';
 //const API_BASE = "http://"my pc's ip":8080/api/v1/game";
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
 
+function romanToNumber(roman) {
+  if (!roman || typeof roman !== 'string') return roman;
+  
+  const romanNumerals = {
+    'generation-i': 1, 'generation-ii': 2, 'generation-iii': 3,
+    'generation-iv': 4, 'generation-v': 5, 'generation-vi': 6,
+    'generation-vii': 7, 'generation-viii': 8, 'generation-ix': 9,
+    'generation-x': 10
+  };
+  
+  return romanNumerals[roman.toLowerCase()] || roman;
+}
+
 function App() {
   const [hint, setHint] = useState('');
   const [guessInput, setGuessInput] = useState('');
@@ -15,7 +28,7 @@ function App() {
       try {
         const response = await fetch(`${API_BASE}/daily-info`);
         const data = await response.json();
-        setHint(`Today's Pokemon has ${data.nameLength} letters and is from ${data.generation}.`);
+        setHint(`Today's Pokemon has ${data.nameLength} letters.`);
       } catch (err) {
         console.error('Failed to load game info:', err);
       }
@@ -76,7 +89,7 @@ function App() {
             <ul>
               {result.attributeHints.map((attr, idx) => (
                 <li key={idx}>
-                  {attr.attributeName}: {attr.value} [{attr.status}]
+                  {attr.attributeName}: {romanToNumber(attr.value)} [{attr.status}]
                   {attr.direction === 'HIGHER' ? ' ↑' : ''}
                   {attr.direction === 'LOWER' ? ' ↓' : ''}
                 </li>

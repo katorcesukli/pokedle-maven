@@ -3,6 +3,17 @@ import '../styles/SearchBar.css';
 
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
 
+function romanToNumber(roman) {
+  if (!roman || typeof roman !== 'string') return roman;
+  
+  const romanNumerals = {
+    'generation-i': 1, 'II': 2, 'III': 3, 'IV': 4, 'V': 5,
+    'VI': 6, 'VII': 7, 'VIII': 8, 'IX': 9, 'X': 10
+  };
+  
+  return romanNumerals[roman.toUpperCase()] || roman;
+}
+
 function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -94,7 +105,7 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
                       <span className="suggestion-name">{suggestion.pokemonName || suggestion.name || 'Unknown'}</span>
                       <span className="suggestion-details">
                         {suggestion.natId && `#${suggestion.natId}`}
-                        {suggestion.generation && ` • Gen ${suggestion.generation}`}
+                        {suggestion.generation && ` • Gen ${romanToNumber(suggestion.generation)}`}
                       </span>
                     </>
                   )}
