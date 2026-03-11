@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LetterGrid from './components/LetterGrid';
 import SearchBar from './components/SearchBar';
+import './styles/Confetti.css';
 
 //const API_BASE = "http://"my pc's ip":8080/api/v1/game";
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
@@ -22,6 +23,7 @@ function App() {
   const [hint, setHint] = useState('');
   const [guessInput, setGuessInput] = useState('');
   const [results, setResults] = useState([]);
+  const [isWinner, setIsWinner] = useState(false);
 
   useEffect(() => {
     async function loadHint() {
@@ -58,6 +60,9 @@ function App() {
       console.log('isWinner:', result.isWinner);
       setResults(prev => [result, ...prev]);
       setGuessInput('');
+      if (result.isWinner) {
+        setIsWinner(true);
+      }
     } catch (err) {
       alert('Error connecting to server.');
     }
@@ -65,6 +70,7 @@ function App() {
 
   return (
     <div className="app-container">
+      
       <h1>Pokedle</h1>
         <h3>
     GREEN - Correct Letter and Placement<br></br>
@@ -79,6 +85,7 @@ function App() {
         onChange={(e) => setGuessInput(e.target.value)}
         onSubmit={submitGuess}
         onSelectSuggestion={(name) => setGuessInput(name)}
+        disabled={isWinner}
       />
 
       <div id="results-container">
@@ -97,6 +104,7 @@ function App() {
             </ul>
             <img src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`}/>
             {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2>}
+
           </div>
         ))}
       </div>

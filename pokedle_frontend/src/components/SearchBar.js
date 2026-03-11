@@ -3,18 +3,9 @@ import '../styles/SearchBar.css';
 
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
 
-function romanToNumber(roman) {
-  if (!roman || typeof roman !== 'string') return roman;
-  
-  const romanNumerals = {
-    'generation-i': 1, 'II': 2, 'III': 3, 'IV': 4, 'V': 5,
-    'VI': 6, 'VII': 7, 'VIII': 8, 'IX': 9, 'X': 10
-  };
-  
-  return romanNumerals[roman.toUpperCase()] || roman;
-}
 
-function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
+
+function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,8 +75,9 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion }) {
             placeholder="Enter Pokémon name"
             autoComplete="off"
             onFocus={() => value && setSuggestions(suggestions)}
+            disabled={disabled}
           />
-          <button type="submit">Guess</button>
+          <button type="submit" disabled={disabled}>Guess</button>
         </div>
 
         {showSuggestions && suggestions.length > 0 && (
