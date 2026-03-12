@@ -68,10 +68,15 @@ public class PokedleController {
     @GetMapping("/daily-info2")
     public ResponseEntity<Map<String, Object>> getDailyInfo2() {
         Pokemon target = pokedleService.getDailyPokemon2();
+
+        //safely handle null types
+        String type1 = target.getTypeOne() != null ? target.getTypeOne() : "";
+        String type2 = target.getTypeTwo() != null ? target.getTypeTwo() : "";
+
         return ResponseEntity.ok(Map.of(
                 "name", target.getName().length(),
-                "type1", target.getTypeOne(),
-                "type2", target.getTypeTwo(),
+                "type1", type1,
+                "type2", type2,
                 "generation", target.getGeneration(),
                 "height", target.getHeight(),
                 "weight", target.getWeight()
