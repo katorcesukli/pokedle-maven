@@ -69,7 +69,9 @@ public class PokedleController {
     public ResponseEntity<Map<String, Object>> getDailyInfo2() {
         Pokemon target = pokedleService.getDailyPokemon2();
         return ResponseEntity.ok(Map.of(
-                "name", target.getName(),
+                "name", target.getName().length(),
+                "type1", target.getTypeOne(),
+                "type2", target.getTypeTwo(),
                 "generation", target.getGeneration(),
                 "height", target.getHeight(),
                 "weight", target.getWeight()
