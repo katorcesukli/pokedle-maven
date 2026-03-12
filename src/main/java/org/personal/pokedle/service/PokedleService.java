@@ -130,14 +130,13 @@ public class PokedleService {
         long dayIndex = LocalDate.now().toEpochDay();
 
         //more randomness
-        Random random = new Random(dayIndex);
-        int random2 = random.nextInt(1000);
+        Random random = new Random(dayIndex + 420 - 69);
 
         //Use modulo to wrap around the list of available IDs
         //int targetIndex = (int) (dayIndex % allIds.size());
 
         //now using random
-        int targetIndex = random2 * random.nextInt(allIds.size());
+        int targetIndex = random.nextInt(allIds.size());
         Long targetId = allIds.get(targetIndex);
 
         return pokemonRepository.findById(targetId)
