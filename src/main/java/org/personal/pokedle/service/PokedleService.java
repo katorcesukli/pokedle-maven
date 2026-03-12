@@ -156,7 +156,7 @@ public class PokedleService {
         return new GuessResult(
                 guess.getName(),
                 fingerPrint,
-                null,      // no attribute hints for part 2
+                new ArrayList<>(),      // no attribute hints for part 2
                 isWinner,
                 natId
         );
