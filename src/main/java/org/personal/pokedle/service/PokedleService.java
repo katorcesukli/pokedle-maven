@@ -117,4 +117,30 @@ public class PokedleService {
                 .map(Pokemon::getName)
                 .toList();
     }
+
+    public Pokemon getDailyPokemon2() {
+        //fetch id
+        List<Long> allIds = pokemonRepository.findAllIds();
+
+        if (allIds.isEmpty()) {
+            throw new RuntimeException("Pokedex is empty!");
+        }
+
+        //Use the date as a seed
+        long dayIndex = LocalDate.now().toEpochDay();
+
+        //more randomness
+        Random random = new Random(dayIndex);
+        int random2 = random.nextInt(1000);
+
+        //Use modulo to wrap around the list of available IDs
+        //int targetIndex = (int) (dayIndex % allIds.size());
+
+        //now using random
+        int targetIndex = random2 * random.nextInt(allIds.size());
+        Long targetId = allIds.get(targetIndex);
+
+        return pokemonRepository.findById(targetId)
+                .orElseThrow(() -> new RuntimeException("Pokemon not found with ID: " + targetId));
+    }
 }
