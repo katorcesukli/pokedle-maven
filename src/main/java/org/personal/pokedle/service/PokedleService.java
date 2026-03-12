@@ -143,4 +143,23 @@ public class PokedleService {
         return pokemonRepository.findById(targetId)
                 .orElseThrow(() -> new RuntimeException("Pokemon not found with ID: " + targetId));
     }
+
+    public GuessResult processGuess2(Pokemon guess, Pokemon target) {
+
+        boolean isWinner = guess.getId().equals(target.getId());
+
+        // Wordle-style letter hints
+        List<LetterStatus> fingerPrint =
+                calculateLetterHints(guess.getName(), target.getName());
+
+        Long natId = guess.getId();
+
+        return new GuessResult(
+                guess.getName(),
+                fingerPrint,
+                null,      // no attribute hints for part 2
+                isWinner,
+                natId
+        );
+    }
 }
