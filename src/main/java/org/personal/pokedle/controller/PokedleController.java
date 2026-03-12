@@ -62,4 +62,15 @@ public class PokedleController {
         List<String> results = pokedleService.searchPokemon(q);
         return ResponseEntity.ok(results);
     }
+
+    @GetMapping("/daily-info2")
+    public ResponseEntity<Map<String, Object>> getDailyInfo2() {
+        Pokemon target = pokedleService.getDailyPokemon2();
+        return ResponseEntity.ok(Map.of(
+                "name", target.getName(),
+                "generation", target.getGeneration(),
+                "height", target.getHeight(),
+                "weight", target.getWeight()
+        ));
+    }
 }
