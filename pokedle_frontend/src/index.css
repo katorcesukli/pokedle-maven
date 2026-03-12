@@ -80,6 +80,13 @@ h3 {
   font-size: 24px;
 }
 
+.guess-result h4 {
+  color: #da1313;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 24px;
+}
+
 .guess-result ul {
   list-style: none;
   padding: 0;

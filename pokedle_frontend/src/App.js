@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import LetterGrid from './components/LetterGrid';
 import SearchBar from './components/SearchBar';
+import SecondGame from './SecondGame';
 import './styles/Confetti.css';
 
 //const API_BASE = "http://"my pc's ip":8080/api/v1/game";
@@ -68,16 +70,15 @@ function App() {
     }
   };
 
-  return (
+  const FirstGameContent = () => (
     <div className="app-container">
-      
       <h1>Pokedle</h1>
-        <h3>
-    GREEN - Correct Letter and Placement<br></br>
-    YELLOW - Correct Letter but wrong Placement<br></br>
-    RED - Letter not in name<br></br>
-    GREY - Letter has exceeded name count<br></br>
-        </h3>
+      <h3>
+        GREEN - Correct Letter and Placement<br></br>
+        YELLOW - Correct Letter but wrong Placement<br></br>
+        RED - Letter not in name<br></br>
+        GREY - Letter has exceeded name count<br></br>
+      </h3>
       <p id="hint-text">{hint || 'Loading hint...'}</p>
 
       <SearchBar
@@ -88,6 +89,14 @@ function App() {
         disabled={isWinner}
       />
 
+      {isWinner && (
+        <Link to="/part2">
+          <button style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px' }}>
+            Play Part 2
+          </button>
+        </Link>
+      )}
+
       <div id="results-container">
         {results.map((result, index) => (
           <div key={index} className="guess-result">
@@ -96,7 +105,7 @@ function App() {
             <ul>
               {result.attributeHints.map((attr, idx) => (
                 <li key={idx}>
-                  {attr.attributeName}: {romanToNumber(attr.value)} [{attr.status}]
+                  {attr.attributeName}: {romanToNumber(attr.value)}{attr.attributeName.toLowerCase().includes('weight') ? ' kg' : attr.attributeName.toLowerCase().includes('height') ? ' m' : ''} [{attr.status}]
                   {attr.direction === 'HIGHER' ? ' ↑' : ''}
                   {attr.direction === 'LOWER' ? ' ↓' : ''}
                 </li>
@@ -109,6 +118,13 @@ function App() {
         ))}
       </div>
     </div>
+  );
+
+  return (
+    <Routes>
+      <Route path="/" element={<FirstGameContent />} />
+      <Route path="/part2" element={<SecondGame />} />
+    </Routes>
   );
 }
 
