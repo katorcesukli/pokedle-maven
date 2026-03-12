@@ -5,8 +5,10 @@ import org.personal.pokedle.model.dto.GuessRequest;
 import org.personal.pokedle.model.dto.GuessResult;
 import org.personal.pokedle.repository.PokemonRepository;
 import org.personal.pokedle.service.PokedleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -72,5 +74,17 @@ public class PokedleController {
                 "height", target.getHeight(),
                 "weight", target.getWeight()
         ));
+    }
+
+    @PostMapping("/guess2")
+    public GuessResult guessPart2(@RequestBody GuessRequest request) {
+
+        Pokemon target = pokedleService.getDailyPokemon2();
+        return pokemonRepository.findByNameIgnoreCase(request.pokemonName())
+                .map(guessedPkmn -> {
+                    GuessResult result = pokedleService.processGuess2(guessedPkmn, target);
+                    return ResponseEntity.ok(result);
+                })
+                .orElse(ResponseEntity.notFound().build()).getBody();
     }
 }
