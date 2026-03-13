@@ -1,3 +1,5 @@
+/* remove default margin-bottom for input */
+
 .search-bar-container {
   position: relative;
   width: 100%;
@@ -11,7 +13,6 @@
   display: flex;
   gap: 8px;
   width: 100%;
-  margin-bottom: 10px;
 }
 
 .input-wrapper input {
@@ -20,6 +21,7 @@
   font-size: 16px;
   border: 2px solid #dadce0;
   border-radius: 6px;
+  margin-bottom: 0px !important;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
 }
