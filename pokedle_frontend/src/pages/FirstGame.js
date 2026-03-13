@@ -9,8 +9,6 @@ function FirstGame({
   isWinner,
   results
 }) {
-
-  console.log(results)
   return (
     <div className="app-container">
       <h1>Pokedle</h1>
