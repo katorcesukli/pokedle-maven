@@ -1,19 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/SearchBar.css';
-
-const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
-
-
-function romanToNumber(roman) {
-  if (!roman || typeof roman !== 'string') return roman;
-  const romanNumerals = {
-    'generation-i': 1, 'generation-ii': 2, 'generation-iii': 3,
-    'generation-iv': 4, 'generation-v': 5, 'generation-vi': 6,
-    'generation-vii': 7, 'generation-viii': 8, 'generation-ix': 9,
-    'generation-x': 10
-  };
-  return romanNumerals[roman.toLowerCase()] || roman;
-}
+import { romanToNumber } from '../util';
+import { BASE_API_URL } from '../constant';
 
 function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) {
   const [suggestions, setSuggestions] = useState([]);
@@ -32,7 +20,7 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
 
       setIsLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(value)}`, {
+        const response = await fetch(`${BASE_API_URL}/search?q=${encodeURIComponent(value)}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           signal: abortController.signal,
@@ -73,7 +61,6 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
 
     setSuggestions([]);
     setShowSuggestions(false);
-
   };
 
   return (
@@ -83,49 +70,54 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
     onSubmit(e);
   }}>
         <div className="input-wrapper">
-          <input
-            id="pokemon-input"
-            type="text"
-            value={value}
-            onChange={onChange}
-            
-            placeholder="Enter Pokémon name"
-            autoComplete="off"
-            onFocus={() => value && setShowSuggestions(true)}
-            disabled={disabled}
-          />
-          <button type="submit" disabled={disabled}>Guess</button>
-        </div>
+          <div className='search-bar-input-container'>
+            <input
+              className='search-bar-input'
+              id="pokemon-input"
+              type="text"
+              value={value}
+              onChange={onChange}
+              
+              placeholder="Enter Pokémon name"
+              autoComplete="off"
+              autoFocus
+              onFocus={() => value && setShowSuggestions(true)}
+              disabled={disabled}
+            />
 
-        {showSuggestions && suggestions.length > 0 && (
-          <div className="suggestions-dropdown">
-            {isLoading && <div className="suggestion-item loading">Loading...</div>}
-            {!isLoading && suggestions.map((suggestion, index) => (
-              <div
-                key={index}
-                className="suggestion-item"
-                onMouseDown={(e) => {
-                  e.preventDefault(); 
-                  handleSelectSuggestion(suggestion);
-                }}
-              >
-                <div className="suggestion-content">
-                  {typeof suggestion === 'string' ? (
-                    <span>{suggestion}</span>
-                  ) : (
-                    <>
-                      <span className="suggestion-name">{suggestion.pokemonName || suggestion.name || 'Unknown'}</span>
-                      <span className="suggestion-details">
-                        {suggestion.natId && `#${suggestion.natId}`}
-                        {suggestion.generation && ` • Gen ${romanToNumber(suggestion.generation)}`}
-                      </span>
-                    </>
-                  )}
-                </div>
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="suggestions-dropdown">
+                {isLoading && <div className="suggestion-item loading">Loading...</div>}
+                {!isLoading && suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="suggestion-item"
+                    onMouseDown={(e) => {
+                      e.preventDefault(); 
+                      handleSelectSuggestion(suggestion);
+                    }}
+                  >
+                    <div className="suggestion-content">
+                      {typeof suggestion === 'string' ? (
+                        <span>{suggestion}</span>
+                      ) : (
+                        <>
+                          <span className="suggestion-name">{suggestion.pokemonName || suggestion.name || 'Unknown'}</span>
+                          <span className="suggestion-details">
+                            {suggestion.natId && `#${suggestion.natId}`}
+                            {suggestion.generation && ` • Gen ${romanToNumber(suggestion.generation)}`}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+            
           </div>
-        )}
+          <button type="submit" disabled={disabled} className='search-btn'>Guess</button>
+        </div>
       </form>
     </div>
   );

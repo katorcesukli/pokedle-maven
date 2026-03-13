@@ -30,17 +30,20 @@ body {
 .app-container {
   width: 100%;
   max-width: 600px;
-  background: #fff;
+  background: #fff9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.app-container h1 {
+  text-align: center;
 }
 
 input[type="text"] {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  margin-bottom: 10px;
 }
 
 button {
@@ -53,6 +56,9 @@ h3 {
 }
 
 .guess-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 2px solid #dadce0;
   margin: 15px 0;
   padding: 15px;
@@ -82,7 +88,7 @@ h3 {
 
 .guess-result h4 {
   color: #da1313;
-  margin-top: 15px;
+  margin: 0;
   text-align: center;
   font-size: 24px;
 }
@@ -105,4 +111,20 @@ h3 {
   display: block;
   margin-top: 10px; 
   border-radius: 4px; 
+}
+
+.green-result{
+  color: green
+}
+
+.yellow-result {
+  color: #fbff00;
+}
+
+.red-result {
+  color: red;
+}
+
+.grey-result {
+  color: #565758;
 }

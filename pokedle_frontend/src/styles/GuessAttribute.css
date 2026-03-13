@@ -1,0 +1,30 @@
+.guess-attribute-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .25em;
+}
+
+.guess-attribute {
+    width: 120px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+    border-radius: 2%;
+}
+
+.guess-wrong {
+    color: white !important;
+    background: oklch(0.4911 0.1817 29.29);
+}
+
+.guess-correct {
+    color: white !important;
+    background: oklch(0.7 0.2483 148.94);
+}
+
+.guess-img {
+    width: 150px;
+    height: 150px;
+}

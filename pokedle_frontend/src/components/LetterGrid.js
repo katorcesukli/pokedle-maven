@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/LetterGrid.css';
 
 function LetterGrid({ letters, statuses }) {
