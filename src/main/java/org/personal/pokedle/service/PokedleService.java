@@ -153,10 +153,15 @@ public class PokedleService {
 
         Long natId = guess.getId();
 
+        List<GuessFeedback> attributeHints = new ArrayList<>();
+
+        attributeHints.add(compareNumbers("Weight", guess.getWeight(), target.getWeight()));
+        attributeHints.add(compareNumbers("Height", guess.getHeight(), target.getHeight()));
+
         return new GuessResult(
                 guess.getName(),
                 fingerPrint,
-                new ArrayList<>(),      // no attribute hints for part 2
+                attributeHints,      // no attribute hints for part 2
                 isWinner,
                 natId
         );
