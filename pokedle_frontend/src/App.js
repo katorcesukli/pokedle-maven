@@ -4,6 +4,7 @@ import LetterGrid from './components/LetterGrid';
 import SearchBar from './components/SearchBar';
 import SecondGame from './SecondGame';
 import './styles/Confetti.css';
+import './styles/GuessAttribute.css';
 
 //const API_BASE = "http://"my pc's ip":8080/api/v1/game";
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
@@ -139,23 +140,27 @@ function FirstGameContent({
               statuses={result.fingerPrint}
             />
 
-            <ul>
+            <img 
+              className='guess-img'
+              loading='lazy' 
+              src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`} 
+            />
+
+            <ul className='guess-attribute-container'>
               {result.attributeHints.map((attr, idx) => (
-                <li key={idx}>
+                <li key={idx} className={`${attr.status === "WRONG" ? 'guess-wrong' : 'guess-correct'} guess-attribute`}>
                   {attr.attributeName}: {romanToNumber(attr.value)}
+
                   {attr.attributeName.toLowerCase().includes('weight')
                     ? ' kg'
                     : attr.attributeName.toLowerCase().includes('height')
                     ? ' m'
                     : ''}{' '}
-                  [{attr.status}]
-                  {attr.direction === 'HIGHER' ? ' ↑' : ''}
+                    {attr.direction === 'HIGHER' ? ' ↑' : ''}
                   {attr.direction === 'LOWER' ? ' ↓' : ''}
                 </li>
               ))}
             </ul>
-
-            <img src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`} />
 
             {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2>}
             {!result.isWinner && <h4> TRY AGAIN!</h4>}

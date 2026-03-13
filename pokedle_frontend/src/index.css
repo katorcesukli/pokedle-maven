@@ -53,6 +53,9 @@ h3 {
 }
 
 .guess-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 2px solid #dadce0;
   margin: 15px 0;
   padding: 15px;
