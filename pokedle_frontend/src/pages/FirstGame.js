@@ -1,5 +1,6 @@
 import SearchBar from '../components/SearchBar.js'
 import GuessResult from '../components/GuessResult.js'
+import { Link } from 'react-router-dom';
 
 function FirstGame({
   hint,
