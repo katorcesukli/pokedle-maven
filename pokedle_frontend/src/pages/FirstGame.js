@@ -16,10 +16,10 @@ function FirstGame({
       <h1>Pokedle</h1>
 
       <h3>
-        GREEN - Correct Letter and Placement<br />
-        YELLOW - Correct Letter but wrong Placement<br />
-        RED - Letter not in name<br />
-        GREY - Letter has exceeded name count<br />
+        <span className='green-result'>GREEN</span> - Correct Letter and Placement<br />
+        <span className='yellow-result'>YELLOW</span> - Correct Letter but wrong Placement<br />
+        <span className='red-result'>RED</span> - Letter not in name<br />
+        <span className='grey-result'>GREY</span> - Letter has exceeded name count<br />
       </h3>
 
       <p id="hint-text">{hint || 'Loading hint...'}</p>
