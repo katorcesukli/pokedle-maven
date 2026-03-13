@@ -1,28 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import FirstGame  from './pages/FirstGame'
 import SecondGame from './pages/SecondGame';
 import './styles/Confetti.css';
 import { BASE_API_URL } from './constant';
+import { useHint } from './hooks/use-hint';
 
 function App() {
-  const [hint, setHint] = useState('');
   const [guessInput, setGuessInput] = useState('');
   const [results, setResults] = useState([]);
   const [isWinner, setIsWinner] = useState(false);
-
-  useEffect(() => {
-    async function loadHint() {
-      try {
-        const response = await fetch(`${BASE_API_URL}/daily-info`);
-        const data = await response.json();
-        setHint(`Today's Pokemon has ${data.nameLength} letters.`);
-      } catch (err) {
-        console.error('Failed to load game info:', err);
-      }
-    }
-    loadHint();
-  }, []);
+  
+  const [ hint ] = useHint()
 
   const submitGuess = async (e) => {
     e.preventDefault();
