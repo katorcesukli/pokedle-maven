@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { BASE_API_URL } from '../constant';
+import { usePokemonInfo } from '../hooks/use-pokemon-info';
 
 function SecondGame() {
-  const [pokemonInfo, setPokemonInfo] = useState(null);
   const [guessInput, setGuessInput] = useState('');
   const [results, setResults] = useState([]);
   const [isWinner, setIsWinner] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadPokemonInfo() {
-      try {
-        const response = await fetch(`${BASE_API_URL}/daily-info2`);
-        const data = await response.json();
-        console.log('Pokemon Info Response:', data);
-        setPokemonInfo(data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Failed to load pokemon info:', err);
-        setLoading(false);
-      }
-    }
-    loadPokemonInfo();
-  }, []);
+  const [pokemonInfo, isLoading] = usePokemonInfo();
 
   const submitGuess = async (e) => {
     e.preventDefault();
@@ -56,7 +40,7 @@ function SecondGame() {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <div className="app-container"><h1>Loading...</h1></div>;
   }
 
