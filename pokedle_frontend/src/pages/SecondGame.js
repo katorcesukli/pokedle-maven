@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import LetterGrid from './components/LetterGrid';
-import SearchBar from './components/SearchBar';
-
-const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
+import SearchBar from '../components/SearchBar';
+import { BASE_API_URL } from '../constant';
 
 function SecondGame() {
   const [pokemonInfo, setPokemonInfo] = useState(null);
@@ -14,7 +12,7 @@ function SecondGame() {
   useEffect(() => {
     async function loadPokemonInfo() {
       try {
-        const response = await fetch(`${API_BASE}/daily-info2`);
+        const response = await fetch(`${BASE_API_URL}/daily-info2`);
         const data = await response.json();
         console.log('Pokemon Info Response:', data);
         setPokemonInfo(data);
@@ -33,7 +31,7 @@ function SecondGame() {
     if (!name) return;
 
     try {
-      const response = await fetch(`${API_BASE}/guess2`, {
+      const response = await fetch(`${BASE_API_URL}/guess2`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pokemonName: name }),
