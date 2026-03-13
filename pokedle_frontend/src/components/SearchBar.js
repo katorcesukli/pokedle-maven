@@ -4,6 +4,16 @@ import '../styles/SearchBar.css';
 const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
 
 
+function romanToNumber(roman) {
+  if (!roman || typeof roman !== 'string') return roman;
+  const romanNumerals = {
+    'generation-i': 1, 'generation-ii': 2, 'generation-iii': 3,
+    'generation-iv': 4, 'generation-v': 5, 'generation-vi': 6,
+    'generation-vii': 7, 'generation-viii': 8, 'generation-ix': 9,
+    'generation-x': 10
+  };
+  return romanNumerals[roman.toLowerCase()] || roman;
+}
 
 function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) {
   const [suggestions, setSuggestions] = useState([]);
@@ -57,24 +67,31 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
 
   const handleSelectSuggestion = (suggestion) => {
     const pokemonName = typeof suggestion === 'string' ? suggestion : (suggestion.name || suggestion.pokemonName || JSON.stringify(suggestion));
+
     onChange({ target: { value: pokemonName } });
     onSelectSuggestion(pokemonName);
+
     setSuggestions([]);
     setShowSuggestions(false);
+
   };
 
   return (
     <div className="search-bar-container">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={(e) => {
+    e.preventDefault();
+    onSubmit(e);
+  }}>
         <div className="input-wrapper">
           <input
             id="pokemon-input"
             type="text"
             value={value}
             onChange={onChange}
+            
             placeholder="Enter Pokémon name"
             autoComplete="off"
-            onFocus={() => value && setSuggestions(suggestions)}
+            onFocus={() => value && setShowSuggestions(true)}
             disabled={disabled}
           />
           <button type="submit" disabled={disabled}>Guess</button>
@@ -87,7 +104,10 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
               <div
                 key={index}
                 className="suggestion-item"
-                onClick={() => handleSelectSuggestion(suggestion)}
+                onMouseDown={(e) => {
+                  e.preventDefault(); 
+                  handleSelectSuggestion(suggestion);
+                }}
               >
                 <div className="suggestion-content">
                   {typeof suggestion === 'string' ? (
