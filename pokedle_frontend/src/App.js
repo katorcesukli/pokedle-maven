@@ -70,15 +70,47 @@ function App() {
     }
   };
 
-  const FirstGameContent = () => (
+
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <FirstGameContent
+            hint={hint}
+            guessInput={guessInput}
+            setGuessInput={setGuessInput}
+            submitGuess={submitGuess}
+            isWinner={isWinner}
+            results={results}
+          />
+        }
+      />
+      <Route path="/part2" element={<SecondGame />} />
+    </Routes>
+  );
+}
+
+function FirstGameContent({
+  hint,
+  guessInput,
+  setGuessInput,
+  submitGuess,
+  isWinner,
+  results
+}) {
+  return (
     <div className="app-container">
       <h1>Pokedle</h1>
+
       <h3>
-        GREEN - Correct Letter and Placement<br></br>
-        YELLOW - Correct Letter but wrong Placement<br></br>
-        RED - Letter not in name<br></br>
-        GREY - Letter has exceeded name count<br></br>
+        GREEN - Correct Letter and Placement<br />
+        YELLOW - Correct Letter but wrong Placement<br />
+        RED - Letter not in name<br />
+        GREY - Letter has exceeded name count<br />
       </h3>
+
       <p id="hint-text">{hint || 'Loading hint...'}</p>
 
       <SearchBar
@@ -101,30 +133,36 @@ function App() {
         {results.map((result, index) => (
           <div key={index} className="guess-result">
             <h3>Guess: {result.guess}</h3>
-            <LetterGrid letters={result.guess.split('')} statuses={result.fingerPrint} />
+
+            <LetterGrid
+              letters={result.guess.split('')}
+              statuses={result.fingerPrint}
+            />
+
             <ul>
               {result.attributeHints.map((attr, idx) => (
                 <li key={idx}>
-                  {attr.attributeName}: {romanToNumber(attr.value)}{attr.attributeName.toLowerCase().includes('weight') ? ' kg' : attr.attributeName.toLowerCase().includes('height') ? ' m' : ''} [{attr.status}]
+                  {attr.attributeName}: {romanToNumber(attr.value)}
+                  {attr.attributeName.toLowerCase().includes('weight')
+                    ? ' kg'
+                    : attr.attributeName.toLowerCase().includes('height')
+                    ? ' m'
+                    : ''}{' '}
+                  [{attr.status}]
                   {attr.direction === 'HIGHER' ? ' ↑' : ''}
                   {attr.direction === 'LOWER' ? ' ↓' : ''}
                 </li>
               ))}
             </ul>
-            <img src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`}/>
-            {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2>}
 
+            <img src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`} />
+
+            {result.isWinner && <h2>🎉 YOU GOT IT! 🎉</h2>}
+            {!result.isWinner && <h4> TRY AGAIN!</h4>}
           </div>
         ))}
       </div>
     </div>
-  );
-
-  return (
-    <Routes>
-      <Route path="/" element={<FirstGameContent />} />
-      <Route path="/part2" element={<SecondGame />} />
-    </Routes>
   );
 }
 
