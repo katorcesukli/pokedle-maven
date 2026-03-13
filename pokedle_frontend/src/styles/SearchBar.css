@@ -11,17 +11,19 @@
 
 .input-wrapper {
   display: flex;
-  gap: 8px;
+  gap: 0.25em;
   width: 100%;
 }
 
-.input-wrapper input {
+.search-bar-input-container {
   flex: 1;
+}
+
+.search-bar-input {
   padding: 10px 12px;
   font-size: 16px;
   border: 2px solid #dadce0;
   border-radius: 6px;
-  margin-bottom: 0px !important;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
 }
@@ -36,7 +38,7 @@
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 600;
-  background-color: #6aaa64;
+  background-color: green;
   color: white;
   border: none;
   border-radius: 6px;

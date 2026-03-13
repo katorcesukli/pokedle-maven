@@ -70,21 +70,55 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
     onSubmit(e);
   }}>
         <div className="input-wrapper">
-          <input
-            id="pokemon-input"
-            type="text"
-            value={value}
-            onChange={onChange}
+          <div className='search-bar-input-container'>
+            <input
+              className='search-bar-input'
+              id="pokemon-input"
+              type="text"
+              value={value}
+              onChange={onChange}
+              
+              placeholder="Enter Pokémon name"
+              autoComplete="off"
+              onFocus={() => value && setShowSuggestions(true)}
+              disabled={disabled}
+            />
+
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="suggestions-dropdown">
+                {isLoading && <div className="suggestion-item loading">Loading...</div>}
+                {!isLoading && suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="suggestion-item"
+                    onMouseDown={(e) => {
+                      e.preventDefault(); 
+                      handleSelectSuggestion(suggestion);
+                    }}
+                  >
+                    <div className="suggestion-content">
+                      {typeof suggestion === 'string' ? (
+                        <span>{suggestion}</span>
+                      ) : (
+                        <>
+                          <span className="suggestion-name">{suggestion.pokemonName || suggestion.name || 'Unknown'}</span>
+                          <span className="suggestion-details">
+                            {suggestion.natId && `#${suggestion.natId}`}
+                            {suggestion.generation && ` • Gen ${romanToNumber(suggestion.generation)}`}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
             
-            placeholder="Enter Pokémon name"
-            autoComplete="off"
-            onFocus={() => value && setShowSuggestions(true)}
-            disabled={disabled}
-          />
+          </div>
           <button type="submit" disabled={disabled} className='search-btn'>Guess</button>
         </div>
 
-        {showSuggestions && suggestions.length > 0 && (
+        {/* {showSuggestions && suggestions.length > 0 && (
           <div className="suggestions-dropdown">
             {isLoading && <div className="suggestion-item loading">Loading...</div>}
             {!isLoading && suggestions.map((suggestion, index) => (
@@ -112,7 +146,7 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
               </div>
             ))}
           </div>
-        )}
+        )} */}
       </form>
     </div>
   );
