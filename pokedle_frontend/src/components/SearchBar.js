@@ -1,19 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/SearchBar.css';
-
-const API_BASE = "https://kind-achievement-production.up.railway.app/api/v1/game";
-
-
-function romanToNumber(roman) {
-  if (!roman || typeof roman !== 'string') return roman;
-  const romanNumerals = {
-    'generation-i': 1, 'generation-ii': 2, 'generation-iii': 3,
-    'generation-iv': 4, 'generation-v': 5, 'generation-vi': 6,
-    'generation-vii': 7, 'generation-viii': 8, 'generation-ix': 9,
-    'generation-x': 10
-  };
-  return romanNumerals[roman.toLowerCase()] || roman;
-}
+import { romanToNumber } from '../util';
+import { BASE_API_URL } from '../constant';
 
 function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) {
   const [suggestions, setSuggestions] = useState([]);
@@ -32,7 +20,7 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
 
       setIsLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(value)}`, {
+        const response = await fetch(`${BASE_API_URL}/search?q=${encodeURIComponent(value)}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           signal: abortController.signal,
@@ -73,7 +61,6 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
 
     setSuggestions([]);
     setShowSuggestions(false);
-
   };
 
   return (
@@ -94,7 +81,7 @@ function SearchBar({ value, onChange, onSubmit, onSelectSuggestion, disabled }) 
             onFocus={() => value && setShowSuggestions(true)}
             disabled={disabled}
           />
-          <button type="submit" disabled={disabled}>Guess</button>
+          <button type="submit" disabled={disabled} className='search-btn'>Guess</button>
         </div>
 
         {showSuggestions && suggestions.length > 0 && (
