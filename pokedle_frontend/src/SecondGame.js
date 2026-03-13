@@ -65,13 +65,14 @@ function SecondGame() {
   return (
     <div className="app-container">
       <h1>Pokedle - Part 2</h1>
-      <h3>Guess the Pokemon based on its Type, Height, and Weight!</h3>
+      <h3>Guess the Pokemon based on its Type, Weight, and Height!</h3>
 
       {pokemonInfo && (
         <div id="hints-display" style={{ fontSize: '18px', marginBottom: '20px' }}>
           <p><strong>Type:</strong> {pokemonInfo.type1}{pokemonInfo.type2 ? ` / ${pokemonInfo.type2}` : ''}</p>
-          <p><strong>Height:</strong> {pokemonInfo.height} m</p>
+          
           <p><strong>Weight:</strong> {pokemonInfo.weight} kg</p>
+          <p><strong>Height:</strong> {pokemonInfo.height} m</p>
         </div>
       )}
 
