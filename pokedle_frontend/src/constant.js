@@ -1,1 +1,1 @@
-export const BASE_API_URL = 'https://kind-achievement-production.up.railway.app/api/v1/game'
+export const BASE_API_URL = 'https://pokedle-backend-docker.onrender.com/api/v1/game'
