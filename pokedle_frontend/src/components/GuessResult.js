@@ -14,7 +14,7 @@ function GuessResult( { result } ){
         <img 
             className='guess-img'
             loading='lazy' 
-            src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(3, '0')}.png`} 
+            src={`https://raw.githubusercontent.com/HybridShivam/Pokemon/refs/heads/master/assets/images/${String(result.natId).padStart(4, '0')}.png`} 
             />
 
         <ul className='guess-attribute-container'>
