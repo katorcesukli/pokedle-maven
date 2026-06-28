@@ -1,6 +1,8 @@
 import SearchBar from '../components/SearchBar.js'
 import GuessResult from '../components/GuessResult.js'
 import { Link } from 'react-router-dom';
+import { MAX_GUESSES } from '../constant.js';
+import ResultScreen from '../components/ResultScreen';
 
 function FirstGame({
   hint,
@@ -28,7 +30,7 @@ function FirstGame({
         onChange={(e) => setGuessInput(e.target.value)}
         onSubmit={submitGuess}
         onSelectSuggestion={(name) => setGuessInput(name)}
-        disabled={isWinner}
+        disabled={isWinner || results.length >= MAX_GUESSES}
       />
 
       {isWinner && (
@@ -37,6 +39,13 @@ function FirstGame({
             Play Part 2
           </button>
         </Link>
+      )}
+
+      {(isWinner || results.length >= MAX_GUESSES) && (
+        <ResultScreen
+          results={results}
+          isWinner={isWinner}
+        />
       )}
 
       <div id="results-container">
