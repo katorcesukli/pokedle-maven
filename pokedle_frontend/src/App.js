@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import FirstGame  from './pages/FirstGame'
 import SecondGame from './pages/SecondGame';
 import './styles/Confetti.css';
-import { BASE_API_URL } from './constant';
+import { BASE_API_URL, MAX_GUESSES } from './constant';
 import { useHint } from './hooks/use-hint';
+import { wakeBackend } from './services/api';
 
 function App() {
   const [guessInput, setGuessInput] = useState('');
@@ -13,8 +14,23 @@ function App() {
   
   const [ hint ] = useHint()
 
+  // Wake up the backend when the app loads
+  const [backendReady, setBackendReady] = useState(false);
+  useEffect(() => {
+    wakeBackend().then(() => setBackendReady(true));
+  }, []);
+
+  if(!backendReady){
+  return <h2>Loading Pokedle...this might take some time so be patient</h2>
+}
+
   const submitGuess = async (e) => {
     e.preventDefault();
+
+    if (results.length >= MAX_GUESSES) {
+        return;
+      }
+
     const name = guessInput.trim();
     if (!name) return;
 
