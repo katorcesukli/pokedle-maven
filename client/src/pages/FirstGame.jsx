@@ -1,8 +1,8 @@
-import SearchBar from '../components/SearchBar.js'
-import GuessResult from '../components/GuessResult.js'
+import SearchBar from '../components/SearchBar.jsx'
+import GuessResult from '../components/GuessResult.jsx'
 import { Link } from 'react-router-dom';
 import { MAX_GUESSES } from '../constant.js';
-import ResultScreen from '../components/ResultScreen';
+import ResultScreen from '../components/ResultScreen.jsx';
 
 function FirstGame({
   hint,
