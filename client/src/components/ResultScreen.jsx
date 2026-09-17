@@ -1,6 +1,12 @@
 import '../styles/ResultScreen.css';
 import { useState } from 'react';
 
+const emojiColorMapping = {
+  "CORRECT": "🟩",
+  "PRESENT": "🟨",
+  "ABSENT": "🟥",
+}
+
 function ResultScreen({ results, isWinner }) {
 
   const [isOpen, setIsOpen] = useState(true);
@@ -14,34 +20,61 @@ function ResultScreen({ results, isWinner }) {
       .map((result) =>
         result.fingerPrint
           .map((status) => {
-            if (status === "CORRECT") return "🟩";
-            if (status === "PRESENT") return "🟨";
-            if (status === "ABSENT") return "🟥";
-            return "⬛";
+            if (emojiColorMapping[status]) return emojiColorMapping[status];
+            else return "⬛";
           })
           .join('')
       )
       .join('\n');
   };
 
-
   const shareText = 
-`Pokedle by Katorcesukli and friends
-
-${isWinner ? "Solved! Got it!" : "Failed!"}
-${results.length}/6 guesses
-
-${getEmojiGrid()}
-
-Play here:
-https://pokedle-maven.vercel.app/`;
-
+    "Pokedle by Katorcesukli and friends" +
+    `\n\n${isWinner ? "Solved! Got it!" : "Failed!"}` +
+    `\n${results.length}/6 guesses` +
+    `\n\n${getEmojiGrid()}` +
+    "\n\nPlay here:" +
+    "\nhttp://172.17.202.103:8081/"
+  ;
 
   const copyResult = () => {
-    navigator.clipboard.writeText(shareText);
+    copyToClipboard(shareText);
     alert("Result copied!");
   };
 
+  const copyToClipboard = (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+
+      // fallback approach, mainly for local development
+      return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        
+        textarea.focus();
+        textarea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            resolve();
+          } else {
+            reject(new Error('Fallback copy failed'));
+          }
+        } catch (err) {
+          reject(err);
+        } finally {
+          textarea.remove();
+        }
+      });
+    }
+  }
 
   return (
     <div className="result-overlay">
@@ -49,54 +82,37 @@ https://pokedle-maven.vercel.app/`;
         <button className="close-btn" onClick={() => setIsOpen(false)}>✕</button>
 
         <h2>
-          {isWinner
-            ? "🎉 YOU GOT IT!"
-            : "GAME OVER"}
+          {isWinner ? "🎉 YOU GOT IT!" : "GAME OVER"}
         </h2>
-
 
         <h3>
           {results.length}/6 guesses
         </h3>
 
-
         <div className="share-grid">
 
-        {results.map((result, index) => (
-
-          <div 
-            key={index}
-            className="share-row"
-          >
-
-            {result.fingerPrint.map((status, i) => {
-
-              let emoji = "⬛";
-
-              if(status === "CORRECT"){
-                emoji = "🟩";
+          {results.map((result, index) => (
+            <div 
+              key={index}
+              className="share-row"
+            >
+              {
+                result.fingerPrint.map((status, i) => {
+                    let emoji = "⬛";
+                    if(emojiColorMapping[status]){
+                      emoji = emojiColorMapping[status];
+                    }
+                    return (
+                      <span key={i}>
+                        {emoji}
+                      </span>
+                    );
+                })
               }
-              else if(status === "PRESENT"){
-                emoji = "🟨";
-              }
-              else if(status === "ABSENT"){
-                emoji = "🟥";
-              }
-
-              return (
-                <span key={i}>
-                  {emoji}
-                </span>
-              );
-
-            })}
-
-          </div>
-
+            </div>
         ))}
 
       </div>
-
 
       <button 
         onClick={copyResult}
@@ -119,6 +135,5 @@ https://pokedle-maven.vercel.app/`;
     </div>
   );
 }
-
 
 export default ResultScreen;
